@@ -52,15 +52,25 @@ En la primera ejecución se crea el administrador definido en `ADMIN_EMAIL` / `A
 | POST | `/api/auth/refresh` | público | Rota el refresh token |
 | POST | `/api/auth/logout` | autenticado | Revoca el refresh token |
 | GET | `/api/auth/me` | autenticado | Usuario actual |
+| PUT | `/api/auth/me` | autenticado | Actualiza nombre e imagen del usuario |
 | GET | `/api/admin/hello` | `ADMIN` | Endpoint de prueba de roles |
+
+El registro acepta opcionalmente `imageUrl` (URL http/https de la foto de perfil).
+Todas las respuestas de usuario incluyen `imageUrl` (puede ser `null`).
 
 ### Ejemplo rápido
 
 ```bash
-# Registro
+# Registro (imageUrl es opcional)
 curl -X POST http://localhost:8080/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"email":"cliente@test.com","password":"Cliente123!","fullName":"Cliente"}'
+  -d '{"email":"cliente@test.com","password":"Cliente123!","fullName":"Cliente","imageUrl":"https://cdn.ejemplo.com/avatar.png"}'
+
+# Actualizar perfil (nombre e imagen)
+curl -X PUT http://localhost:8080/api/auth/me \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d '{"fullName":"Cliente Actualizado","imageUrl":"https://cdn.ejemplo.com/avatar2.png"}'
 
 # Login
 curl -X POST http://localhost:8080/api/auth/login \

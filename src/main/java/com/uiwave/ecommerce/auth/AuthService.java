@@ -4,6 +4,7 @@ import com.uiwave.ecommerce.auth.dto.AuthResponse;
 import com.uiwave.ecommerce.auth.dto.LoginRequest;
 import com.uiwave.ecommerce.auth.dto.RefreshRequest;
 import com.uiwave.ecommerce.auth.dto.RegisterRequest;
+import com.uiwave.ecommerce.auth.dto.UpdateProfileRequest;
 import com.uiwave.ecommerce.auth.dto.UserResponse;
 import com.uiwave.ecommerce.common.exception.DuplicateResourceException;
 import com.uiwave.ecommerce.common.exception.InvalidTokenException;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -57,6 +59,7 @@ public class AuthService {
                 .email(email)
                 .password(passwordEncoder.encode(request.password()))
                 .fullName(request.fullName().trim())
+                .imageUrl(normalizeImageUrl(request.imageUrl()))
                 .role(Role.USER)
                 .enabled(true)
                 .build();
@@ -110,6 +113,23 @@ public class AuthService {
         return UserResponse.from(user);
     }
 
+    /**
+     * Actualiza el perfil del usuario autenticado. Si imageUrl viene null, se conserva
+     * la imagen actual; si viene vacía, se elimina.
+     */
+    @Transactional
+    public UserResponse updateMe(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        user.setFullName(request.fullName().trim());
+        if (request.imageUrl() != null) {
+            user.setImageUrl(normalizeImageUrl(request.imageUrl()));
+        }
+
+        return UserResponse.from(user);
+    }
+
     private AuthResponse issueTokens(User user) {
         String rawRefreshToken = generateRawRefreshToken();
 
@@ -147,5 +167,9 @@ public class AuthService {
 
     private static String normalizeEmail(String email) {
         return email.trim().toLowerCase(Locale.ROOT);
+    }
+
+    private static String normalizeImageUrl(String imageUrl) {
+        return StringUtils.hasText(imageUrl) ? imageUrl.trim() : null;
     }
 }

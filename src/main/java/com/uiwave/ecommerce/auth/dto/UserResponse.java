@@ -10,6 +10,7 @@ public record UserResponse(
         String email,
         String fullName,
         Role role,
+        String imageUrl,
         Instant createdAt) {
 
     public static UserResponse from(User user) {
@@ -18,6 +19,7 @@ public record UserResponse(
                 user.getEmail(),
                 user.getFullName(),
                 user.getRole(),
+                user.getImageUrl(),
                 user.getCreatedAt());
     }
 }

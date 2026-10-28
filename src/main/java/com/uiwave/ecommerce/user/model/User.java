@@ -45,6 +45,9 @@ public class User implements UserDetails {
 
     @Column(name = "full_name", nullable = false, length = 120)
     private String fullName;
+    
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

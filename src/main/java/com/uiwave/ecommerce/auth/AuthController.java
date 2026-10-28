@@ -4,6 +4,7 @@ import com.uiwave.ecommerce.auth.dto.AuthResponse;
 import com.uiwave.ecommerce.auth.dto.LoginRequest;
 import com.uiwave.ecommerce.auth.dto.RefreshRequest;
 import com.uiwave.ecommerce.auth.dto.RegisterRequest;
+import com.uiwave.ecommerce.auth.dto.UpdateProfileRequest;
 import com.uiwave.ecommerce.auth.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -56,5 +58,12 @@ public class AuthController {
     @GetMapping("/me")
     public UserResponse me(Authentication authentication) {
         return authService.me(authentication.getName());
+    }
+
+    @Operation(summary = "Actualizar nombre e imagen del usuario autenticado")
+    @PutMapping("/me")
+    public UserResponse updateMe(Authentication authentication,
+                                 @Valid @RequestBody UpdateProfileRequest request) {
+        return authService.updateMe(authentication.getName(), request);
     }
 }
