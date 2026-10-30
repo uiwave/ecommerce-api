@@ -59,9 +59,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     /** Listado administrativo con búsqueda, categoría y estado. */
     @Query("""
             select p from Product p
-            where (:q is null
-                    or lower(p.name) like lower(concat('%', :q, '%'))
-                    or lower(p.slug) like lower(concat('%', :q, '%')))
+            where (cast(:q as string) is null
+                    or lower(p.name) like lower(concat('%', cast(:q as string), '%'))
+                    or lower(p.slug) like lower(concat('%', cast(:q as string), '%')))
               and (:categorySlug is null or p.category.slug = :categorySlug)
               and (:active is null or p.active = :active)
             """)

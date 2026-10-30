@@ -125,6 +125,16 @@ public class ProductService {
         product.setActive(false);
     }
 
+    /** Ajuste directo de inventario con bloqueo pesimista (consistente con el checkout). */
+    @Transactional
+    public ProductResponse adjustStock(Long id, int newStock) {
+        Product product = productRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
+
+        product.setStock(newStock);
+        return ProductResponse.from(product);
+    }
+
     // ----------------------------------------------------------------- helpers
 
     private Product find(Long id) {

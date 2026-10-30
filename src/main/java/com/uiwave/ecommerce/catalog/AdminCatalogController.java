@@ -1,5 +1,6 @@
 package com.uiwave.ecommerce.catalog;
 
+import com.uiwave.ecommerce.catalog.dto.AdjustStockRequest;
 import com.uiwave.ecommerce.catalog.dto.CategoryRequest;
 import com.uiwave.ecommerce.catalog.dto.CategoryResponse;
 import com.uiwave.ecommerce.catalog.dto.ProductRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -90,6 +92,14 @@ public class AdminCatalogController {
             @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
         return productService.update(id, request);
+    }
+
+    @Operation(summary = "Ajustar el stock de un producto")
+    @PatchMapping("/products/{id}/stock")
+    public ProductResponse adjustStock(
+            @PathVariable Long id,
+            @Valid @RequestBody AdjustStockRequest request) {
+        return productService.adjustStock(id, request.newStock());
     }
 
     @Operation(summary = "Dar de baja un producto (baja lógica)")

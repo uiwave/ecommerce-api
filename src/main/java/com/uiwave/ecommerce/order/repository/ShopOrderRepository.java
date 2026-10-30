@@ -29,9 +29,9 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
     /** Listado administrativo con búsqueda por email/nombre y filtro por estado. */
     @Query("""
             select o from ShopOrder o
-            where (:q is null
-                    or lower(o.user.email) like lower(concat('%', :q, '%'))
-                    or lower(o.fullName) like lower(concat('%', :q, '%')))
+            where (cast(:q as string) is null
+                    or lower(o.user.email) like lower(concat('%', cast(:q as string), '%'))
+                    or lower(o.fullName) like lower(concat('%', cast(:q as string), '%')))
               and (:status is null or o.status = :status)
             """)
     Page<ShopOrder> searchAdmin(
