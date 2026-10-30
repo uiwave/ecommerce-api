@@ -11,6 +11,7 @@ public record UserResponse(
         String fullName,
         Role role,
         String imageUrl,
+        boolean enabled,
         Instant createdAt) {
 
     public static UserResponse from(User user) {
@@ -20,6 +21,7 @@ public record UserResponse(
                 user.getFullName(),
                 user.getRole(),
                 user.getImageUrl(),
+                user.isEnabled(),
                 user.getCreatedAt());
     }
 }

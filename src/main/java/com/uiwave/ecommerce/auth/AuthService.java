@@ -78,7 +78,8 @@ public class AuthService {
 
     /**
      * Rota el refresh token: el presentado se revoca y se emite uno nuevo.
-     * Si se detecta reuso de un token ya revocado, se revocan todos los tokens del usuario.
+     * Si se detecta reuso de un token ya revocado, se revocan todos los tokens del
+     * usuario.
      */
     @Transactional(noRollbackFor = InvalidTokenException.class)
     public AuthResponse refresh(RefreshRequest request) {
@@ -114,7 +115,8 @@ public class AuthService {
     }
 
     /**
-     * Actualiza el perfil del usuario autenticado. Si imageUrl viene null, se conserva
+     * Actualiza el perfil del usuario autenticado. Si imageUrl viene null, se
+     * conserva
      * la imagen actual; si viene vacía, se elimina.
      */
     @Transactional
