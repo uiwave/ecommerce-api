@@ -1,10 +1,11 @@
-package com.uiwave.ecommerce.catalog.repository;
+package com.uiwave.ecommerce.category.repository;
 
 import com.uiwave.ecommerce.catalog.model.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
@@ -13,4 +14,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean existsBySlug(String slug);
 
     List<Category> findAllByOrderByNameAsc();
+
 }

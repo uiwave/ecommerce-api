@@ -4,8 +4,8 @@ import com.uiwave.ecommerce.catalog.dto.ProductRequest;
 import com.uiwave.ecommerce.catalog.dto.ProductResponse;
 import com.uiwave.ecommerce.catalog.model.Category;
 import com.uiwave.ecommerce.catalog.model.Product;
-import com.uiwave.ecommerce.catalog.repository.CategoryRepository;
 import com.uiwave.ecommerce.catalog.repository.ProductRepository;
+import com.uiwave.ecommerce.category.repository.CategoryRepository;
 import com.uiwave.ecommerce.common.dto.PageResponse;
 import com.uiwave.ecommerce.common.exception.DuplicateResourceException;
 import com.uiwave.ecommerce.common.exception.ResourceNotFoundException;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
